@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volume Turbo</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <img class="logo" src="../icons/icon32.png" alt="">
+    <h1>Volume Turbo</h1>
+    <button type="button" class="icon-btn" id="theme" title="Alternar tema claro/escuro" aria-label="Alternar tema claro/escuro">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+    </button>
+  </header>
+
+  <div class="access" id="access" hidden>
+    <p>A extensão ainda não tem acesso aos sites para controlar o som.</p>
+    <button type="button" id="grant">Permitir acesso</button>
+    <small>Depois de permitir, recarregue as abas que estão tocando som.</small>
+  </div>
+
+  <section class="current" id="current" data-level="normal">
+    <div class="tab-name" id="tab-name">Esta aba</div>
+    <div class="value"><span id="value">100</span><span class="unit">%</span></div>
+    <input type="range" id="slider" min="0" max="600" step="5" value="100" aria-label="Volume desta aba">
+    <div class="scale" aria-hidden="true"><span>0%</span><span class="mark-100">100%</span><span>600%</span></div>
+    <div class="presets" id="presets">
+      <button type="button" data-value="0">Mudo</button>
+      <button type="button" data-value="100">100%</button>
+      <button type="button" data-value="200">200%</button>
+      <button type="button" data-value="300">300%</button>
+      <button type="button" data-value="600">600%</button>
+    </div>
+    <p class="hint" id="hint"></p>
+  </section>
+
+  <section class="audible">
+    <h2>Abas com som</h2>
+    <ul id="audible-list"></ul>
+    <p class="empty" id="audible-empty" hidden>Nenhuma aba está tocando som agora.</p>
+  </section>
+
+  <footer>O volume vale só para a aba e volta a 100% quando ela é fechada.</footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+/* Cores do Subaru (igual ao Subaru's Block): azul-marinho, amarelo e dourado.
+   Azul-marinho é o padrão; o botão de tema passa por preto e claro.
+   Volume: azul até 100%, amarelo no turbo, vermelho acima de 300%. */
+:root {
+  --bg: #0c1430;
+  --surface: #13204a;
+  --hover: #1b2c62;
+  --text: #ececf3;
+  --muted: #93a3cf;
+  --border: #22346e;
+  --track: #2a3a70;
+  --accent: #3a78f2;
+  --boost: #ffd200;
+  --loud: #f87171;
+  --gold: #d9b44a;
+  --on-accent: #ffffff;
+  --on-boost: #0b1a45;
+  --on-loud: #ffffff;
+  color-scheme: dark;
+}
+
+/* Preto: fundo preto de verdade, com o azul, o amarelo e o dourado do Subaru nos detalhes */
+:root[data-theme="black"] {
+  --bg: #000000;
+  --surface: #121212;
+  --hover: #1c1c1c;
+  --text: #f0f0f0;
+  --muted: #9b9b9b;
+  --border: #262626;
+  --track: #333333;
+  --accent: #3a78f2;
+  --boost: #ffd200;
+  --loud: #f87171;
+  --gold: #d9b44a;
+  --on-accent: #ffffff;
+  --on-boost: #000000;
+  --on-loud: #ffffff;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f8fd;
+  --surface: #e7edfa;
+  --hover: #d9e2f6;
+  --text: #0f1b3d;
+  --muted: #55658f;
+  --border: #cfd9f0;
+  --track: #c3cde6;
+  --accent: #1e56d6;
+  --boost: #e0a800;
+  --loud: #dc2626;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+
+body {
+  width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.35 "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+button { font: inherit; color: inherit; }
+
+/* ---------- Cabeçalho ---------- */
+.top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 12px;
+  padding: 12px 2px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo { width: 24px; height: 24px; border-radius: 6px; }
+h1 { flex: 1; margin: 0; font-size: 17px; font-weight: 600; }
+
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-btn:hover { background: var(--hover); color: var(--text); }
+.icon-btn svg { width: 20px; height: 20px; }
+
+/* ---------- Aviso de permissão (Firefox) ---------- */
+.access {
+  margin: 10px 12px 0;
+  padding: 10px 12px;
+  border: 1px solid #f59e0b;
+  border-radius: 10px;
+  background: rgb(245 158 11 / 0.1);
+  font-size: 13px;
+}
+
+.access[hidden] { display: none; }
+.access p { margin: 0 0 8px; }
+.access small { display: block; margin-top: 6px; color: var(--muted); font-size: 11.5px; }
+
+.access button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: #f59e0b;
+  color: #1f1300;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- Volume da aba atual ---------- */
+.current {
+  --level: var(--accent);
+  --on-level: var(--on-accent);
+  margin: 12px;
+  padding: 12px 14px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.current[data-level="boost"] { --level: var(--boost); --on-level: var(--on-boost); }
+.current[data-level="loud"] { --level: var(--loud); --on-level: var(--on-loud); }
+.current.disabled { opacity: 0.5; pointer-events: none; }
+
+.tab-name {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.value {
+  margin: 2px 0 6px;
+  color: var(--level);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.value .unit { margin-left: 2px; font-size: 22px; font-weight: 600; }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--level) var(--fill, 16.7%), var(--track) var(--fill, 16.7%));
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border: 3px solid var(--gold, var(--surface));
+  border-radius: 50%;
+  background: var(--level);
+  box-shadow: 0 0 0 1px var(--level);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--level) var(--fill, 16.7%), var(--track) var(--fill, 16.7%));
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--gold, var(--surface));
+  border-radius: 50%;
+  background: var(--level);
+}
+
+input[type="range"]:focus-visible { outline: 2px solid var(--level); outline-offset: 3px; border-radius: 4px; }
+
+/* 0% · 100% (a 1/6 da barra) · 600% */
+.scale {
+  position: relative;
+  height: 16px;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.scale span { position: absolute; top: 0; }
+.scale span:first-child { left: 0; }
+.scale span:last-child { right: 0; }
+.scale .mark-100 { left: 16.67%; transform: translateX(-50%); }
+
+.presets {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.presets button {
+  padding: 6px 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.presets button:hover { border-color: var(--level); }
+.presets button[aria-pressed="true"] { border-color: var(--level); background: var(--level); color: var(--on-level); }
+
+.hint { min-height: 16px; margin: 8px 0 0; color: var(--muted); font-size: 11.5px; }
+.hint:empty { display: none; }
+
+/* ---------- Abas tocando som ---------- */
+.audible { margin: 0 12px; }
+
+h2 {
+  margin: 4px 2px 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#audible-list { margin: 0; padding: 0; list-style: none; }
+
+#audible-list li {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: 8px;
+}
+
+#audible-list li:hover { background: var(--hover); }
+#audible-list li.current-tab { background: var(--surface); }
+
+#audible-list .open {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 7px 4px 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Botão de mudo de cada aba */
+#audible-list .mute {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+#audible-list .mute:hover { background: var(--bg); color: var(--text); }
+#audible-list .mute svg { width: 18px; height: 18px; }
+#audible-list .mute[aria-pressed="true"] { color: var(--loud); }
+#audible-list li.muted .title,
+#audible-list li.muted img,
+#audible-list li.muted .badge { opacity: 0.5; }
+
+#audible-list img,
+#audible-list .no-icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+#audible-list .no-icon { background: var(--track); }
+
+#audible-list .title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#audible-list .badge {
+  flex: none;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+#audible-list .badge.boost { color: var(--boost); }
+
+.empty { margin: 4px 2px 8px; color: var(--muted); font-size: 12.5px; }
+.empty[hidden] { display: none; }
+
+footer {
+  margin: 8px 12px 0;
+  padding: 8px 2px 12px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11.5px;
+}
