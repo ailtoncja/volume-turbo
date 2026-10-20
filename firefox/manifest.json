@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Volume Turbo",
+  "version": "1.2.2",
+  "description": "Aumente o volume de qualquer aba até 600%, veja as abas que estão tocando som e troque entre elas com um clique.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{60ffb156-b54d-4888-a52b-b7148b28198b}",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "scripts": ["background.js"] },
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_title": "Volume Turbo",
+    "default_popup": "popup/popup.html",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png" }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "run_at": "document_idle"
+    }
+  ]
+}
