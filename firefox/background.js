@@ -43,8 +43,15 @@ api.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     return true; // resposta assíncrona
   }
-  // O menu (popup) mudou o volume.
-  if (message?.type === 'volume:set' && typeof message.tabId === 'number') {
+  // O menu (popup) mudou o volume. Só páginas da própria extensão escolhem a aba:
+  // os scripts que rodam dentro dos sites não podem mexer no volume de outras abas.
+  const fromExtensionPage = sender.id === api.runtime.id && !sender.tab && sender.url?.startsWith(api.runtime.getURL(''));
+  if (
+    message?.type === 'volume:set' &&
+    fromExtensionPage &&
+    Number.isInteger(message.tabId) &&
+    Number.isFinite(message.value)
+  ) {
     setVolume(message.tabId, message.value).then(() => sendResponse({ ok: true }));
     return true;
   }

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Volume Turbo",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Aumente o volume de qualquer aba até 600%, veja as abas que estão tocando som e troque entre elas com um clique.",
   "browser_specific_settings": {
     "gecko": {
